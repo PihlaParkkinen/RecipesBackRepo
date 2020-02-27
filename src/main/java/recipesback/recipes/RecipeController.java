@@ -19,6 +19,11 @@ public class RecipeController {
         return mealRepository.findAll();
     }
 
+    @GetMapping ("/meals/{name}")
+    public Iterable<Meal> mealsByName (@PathVariable String name) {
+        return mealRepository.findByNameContainingIgnoreCase(name);
+    }
+
     @PostMapping("/meals")
     public void addMeal(@RequestBody Meal meal){
         mealRepository.save(meal);
@@ -35,5 +40,10 @@ public class RecipeController {
     @GetMapping("/ingredients")
     public Iterable<Ingredient> allIngredients(){
         return ingredientRepository.findAll();
+    }
+
+    @GetMapping ("/ingredients/{name}")
+    public Iterable<String> ingredientsByName (@PathVariable String name) {
+        return ingredientRepository.mealsByIngredient(name);
     }
 }
