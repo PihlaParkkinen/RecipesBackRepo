@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-//lisää @CrossOrigin integraatiovaiheessa
+@CrossOrigin(origins= "http://localhost:3000")
 public class RecipeController {
     @Autowired
     private MealRepository mealRepository;
@@ -17,6 +17,11 @@ public class RecipeController {
     @GetMapping("/meals")
     public Iterable<Meal> allMeals(){
         return mealRepository.findAll();
+    }
+
+    @GetMapping ("/meals/{name}")
+    public Iterable<Meal> mealsByName (@PathVariable String name) {
+        return mealRepository.findByNameContainingIgnoreCase(name);
     }
 
     @PostMapping("/meals")
@@ -35,5 +40,10 @@ public class RecipeController {
     @GetMapping("/ingredients")
     public Iterable<Ingredient> allIngredients(){
         return ingredientRepository.findAll();
+    }
+
+    @GetMapping ("/ingredients/{name}")
+    public Iterable<String> ingredientsByName (@PathVariable String name) {
+        return ingredientRepository.mealsByIngredient(name);
     }
 }
