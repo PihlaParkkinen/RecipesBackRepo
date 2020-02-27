@@ -2,7 +2,10 @@ package recipesback.recipes;
 
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.util.*;
@@ -10,6 +13,7 @@ import java.util.*;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
+
 public class Meal  {
     @Id
     @GeneratedValue(strategy = SEQUENCE,
@@ -18,6 +22,7 @@ public class Meal  {
             sequenceName = "meal_id_seq",
             allocationSize = 1)
     private Integer id;
+    @Column(nullable = false)
     private String name;
     private Integer portions;
     private Integer cookingtime;
@@ -27,7 +32,14 @@ public class Meal  {
     @OneToOne(mappedBy = "meal")
     private Instruction instruction;
 
-    public Meal() {
+    public Meal(){
+
+    }
+
+    @JsonCreator
+    public Meal(@JsonProperty("name") String name) {
+        this.name = name;
+
     }
 
     public Integer getId() {
